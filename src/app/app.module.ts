@@ -30,6 +30,7 @@ import { Not403Component } from './pages/not403/not403.component';
 import { RecuperarComponent } from './login/recuperar/recuperar.component';
 import { TokenComponent } from './login/recuperar/token/token.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 export function tokenGetter() {
   let tk = sessionStorage.getItem(environment.TOKEN_NAME);
@@ -57,7 +58,8 @@ export function tokenGetter() {
     LoginComponent,
     Not403Component,
     RecuperarComponent,
-    TokenComponent
+    TokenComponent,
+    PerfilComponent
   ],
   entryComponents: [MedicoDialogoComponent, DialogoDetalleComponent],
   imports: [

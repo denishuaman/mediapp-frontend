@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
         let token = sessionStorage.getItem(environment.TOKEN_NAME);
         let decodedToken = helper.decodeToken(token);
-        //console.log(decodedToken);
+        console.log('Token decodificado', decodedToken);
 
         this.menuService.listarPorUsuario(decodedToken.user_name).subscribe(data => {
           this.menuService.menuCambio.next(data);

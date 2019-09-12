@@ -16,6 +16,7 @@ import { PacienteEdicionComponent } from './pages/paciente/paciente-edicion/paci
 import { EspecialidadComponent } from './pages/especialidad/especialidad.component';
 import { LoginComponent } from './login/login.component';
 import { GuardService } from './_service/guard.service';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
       { path: ':token', component: TokenComponent }
     ]
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'perfil', component: PerfilComponent }
 
 ];
 
