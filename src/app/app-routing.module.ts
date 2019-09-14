@@ -17,6 +17,8 @@ import { EspecialidadComponent } from './pages/especialidad/especialidad.compone
 import { LoginComponent } from './login/login.component';
 import { GuardService } from './_service/guard.service';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { SignosComponent } from './pages/signos/signos.component';
+import { SignosEdicionComponent } from './pages/signos/signos-edicion/signos-edicion.component';
 
 const routes: Routes = [
   {
@@ -50,8 +52,11 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'perfil', component: PerfilComponent }
-
+  { path: 'perfil', component: PerfilComponent, canActivate: [GuardService]},
+  { path: 'signos', component: SignosComponent ,  children: [
+    { path: 'nuevo', component: SignosEdicionComponent },
+    { path: 'edicion/:id', component: SignosEdicionComponent}
+  ], canActivate: [GuardService]}
 ];
 
 @NgModule({
