@@ -1,1 +1,31 @@
-<p>signos-edicion works!</p>
+<form class="example-container" [formGroup]="form" #espForm="ngForm">
+
+    <div class="example-container">
+        <mat-form-field>
+            <input type="text" placeholder="Paciente" matInput [matAutocomplete]="autoPaciente"
+                [formControl]="myControlPaciente" formControlName="paciente">
+        </mat-form-field>
+        <mat-autocomplete #autoPaciente="matAutocomplete" [displayWith]="displayFn"
+            (optionSelected)="seleccionarPaciente($event)">
+            <mat-option *ngFor="let p of filteredOptions | async" [value]="p">
+                {{ p.nombres }} {{p.apellidos}}
+            </mat-option>
+        </mat-autocomplete>
+    </div>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" formControlName="fecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Temperatura" [(ngModel)]="temperatura" formControlName="temperatura">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Pulso" [(ngModel)]="pulso" formControlName="pulso">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Ritmo respiratorio" [(ngModel)]="ritmoRespiratorio" formControlName="ritmoRespiratorio">
+    </mat-form-field>
+</form>
