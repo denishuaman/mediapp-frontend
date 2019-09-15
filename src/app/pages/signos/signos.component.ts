@@ -4,6 +4,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar } from '@angular
 import { SignosService } from 'src/app/_service/signos.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { filter } from 'minimatch';
 
 @Component({
   selector: 'app-signos',
@@ -22,6 +23,15 @@ export class SignosComponent implements OnInit {
   ngOnInit() {
     this.signosService.signosCambio.subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.filterPredicate = (data, filter) => {
+        // console.log('filtrando.....');
+        // console.log('data a filtrar:', data);
+        // console.log('filtro:', filter);
+        const dataStr = data.idSignos + ';' + data.fecha + ';' + data.temperatura + ';' + data.pulso + ';' + data.ritmoRespiratorio
+          + ';' + data.paciente.dni + ';' + data.paciente.nombres + ';' + data.paciente.apellidos;
+        // console.log('dataStr:', dataStr);
+        return dataStr.indexOf(filter) != -1;
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
@@ -34,6 +44,15 @@ export class SignosComponent implements OnInit {
 
     this.signosService.listar().subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
+      this.dataSource.filterPredicate = (data, filter) => {
+        // console.log('filtrando.....');
+        // console.log('data a filtrar:', data);
+        // console.log('filtro:', filter);
+        const dataStr = data.idSignos + ';' + data.fecha + ';' + data.temperatura + ';' + data.pulso + ';' + data.ritmoRespiratorio
+          + ';' + data.paciente.dni + ';' + data.paciente.nombres + ';' + data.paciente.apellidos;
+        // console.log('dataStr:', dataStr);
+        return dataStr.trim().toLowerCase().indexOf(filter) != -1;
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })

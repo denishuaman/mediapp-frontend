@@ -7,7 +7,7 @@
 
         <div class="example-header">
             <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar signos">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
             </mat-form-field>
         </div>
 
@@ -18,7 +18,7 @@
             </ng-container>
             <ng-container matColumnDef="fecha">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.fecha | date: 'dd/MM/yyyy hh:mm:ss a'}}</mat-cell>
+                <mat-cell *matCellDef="let row">{{row.fecha | date: 'yyyy-MM-dd hh:mm:ss a'}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="temperatura">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Temperatura</mat-header-cell>
