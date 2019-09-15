@@ -2,7 +2,7 @@ import { Paciente } from './paciente';
 
 export class Signos {
     idSignos: number;
-    fecha: Date;
+    fecha: string;
     temperatura: number;
     pulso: number;
     ritmoRespiratorio: number;

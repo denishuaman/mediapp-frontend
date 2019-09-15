@@ -1,9 +1,15 @@
-<form class="example-container" [formGroup]="form" #espForm="ngForm">
+<form class="example-container" [formGroup]="form" (ngSubmit)="registrar()" #espForm="ngForm">
+
+    <div [hidden]="true">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="ID" required formControlName="id">
+        </mat-form-field>
+    </div>
 
     <div class="example-container">
         <mat-form-field>
             <input type="text" placeholder="Paciente" matInput [matAutocomplete]="autoPaciente"
-                [formControl]="myControlPaciente" formControlName="paciente">
+                [formControl]="myControlPaciente" formControlName="paciente" required>
         </mat-form-field>
         <mat-autocomplete #autoPaciente="matAutocomplete" [displayWith]="displayFn"
             (optionSelected)="seleccionarPaciente($event)">
@@ -14,18 +20,27 @@
     </div>
 
     <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" formControlName="fecha">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" [max]="maxFecha" formControlName="fecha" required>
+        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Temperatura" [(ngModel)]="temperatura" formControlName="temperatura">
+        <input matInput placeholder="Temperatura" [(ngModel)]="temperatura" formControlName="temperatura" required>
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Pulso" [(ngModel)]="pulso" formControlName="pulso">
+        <input matInput placeholder="Pulso" [(ngModel)]="pulso" formControlName="pulso" required>
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Ritmo respiratorio" [(ngModel)]="ritmoRespiratorio" formControlName="ritmoRespiratorio">
+        <input matInput placeholder="Ritmo respiratorio" [(ngModel)]="ritmoRespiratorio" formControlName="ritmoRespiratorio" required>
     </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="espForm.invalid">
+        <mat-icon>done</mat-icon>
+        <span>Aceptar</span>
+    </button>
+    <button mat-raised-button color="accent" routerLink='/signos' type="button">
+        <mat-icon>close</mat-icon>
+        <span>Cancelar</span>
+    </button>
 </form>

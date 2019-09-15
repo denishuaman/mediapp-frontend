@@ -28,7 +28,7 @@ export class SignosComponent implements OnInit {
 
     this.signosService.mensajeCambio.subscribe(data => {
       this.snackBar.open(data, 'Aviso', {
-        duration: 2000,
+        duration: 5000,
       });
     });
 
