@@ -30,7 +30,7 @@ export class SignosComponent implements OnInit {
         const dataStr = data.idSignos + ';' + data.fecha + ';' + data.temperatura + ';' + data.pulso + ';' + data.ritmoRespiratorio
           + ';' + data.paciente.dni + ';' + data.paciente.nombres + ';' + data.paciente.apellidos;
         // console.log('dataStr:', dataStr);
-        return dataStr.indexOf(filter) != -1;
+        return dataStr.trim().toLowerCase().indexOf(filter) != -1;
       }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

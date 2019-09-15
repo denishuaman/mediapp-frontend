@@ -20,7 +20,6 @@ export class PerfilComponent implements OnInit {
     const helper = new JwtHelperService();
     let token = sessionStorage.getItem(environment.TOKEN_NAME);
     let decodedToken = helper.decodeToken(token);
-    console.log('Información del token', decodedToken);
     this.nombreUsuario = decodedToken.user_name;
     this.roles = decodedToken.authorities;
   }

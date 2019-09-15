@@ -20,7 +20,7 @@
     </div>
 
     <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" [max]="maxFecha" formControlName="fecha" required>
+        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" [max]="maxFecha" [(ngModel)]="fecha" formControlName="fecha" required>
         <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>

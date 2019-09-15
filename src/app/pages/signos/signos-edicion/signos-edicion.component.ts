@@ -20,6 +20,7 @@ export class SignosEdicionComponent implements OnInit {
   fecha: Date = new Date();
   fechaString: string;
   maxFecha: Date = new Date();
+  temperatura: number;
   pulso: number;
   ritmoRespiratorio: number;
 
@@ -57,6 +58,7 @@ export class SignosEdicionComponent implements OnInit {
         console.log('signos vitales (seleccionado)', data);
         let id = data.idSignos;
         this.fechaString = data.fecha;
+        this.fecha = new Date(this.fechaString);
         let temperatura = data.temperatura;
         let pulso = data.pulso;
         let ritmoRespiratorio = data.ritmoRespiratorio;
@@ -66,7 +68,7 @@ export class SignosEdicionComponent implements OnInit {
         this.form = new FormGroup({
           'id': new FormControl(id),
           'paciente': this.myControlPaciente,
-          'fecha': new FormControl(new Date(this.fechaString)),
+          'fecha': new FormControl(new Date(this.fecha)),
           'temperatura': new FormControl(temperatura),
           'pulso': new FormControl(pulso),
           'ritmoRespiratorio': new FormControl(ritmoRespiratorio)
@@ -88,11 +90,11 @@ export class SignosEdicionComponent implements OnInit {
     this.signos = new Signos();
     this.signos.idSignos = this.form.value['id'];
     this.signos.paciente = this.paciente;
-    
-    let tzoffset = (this.fecha).getTimezoneOffset() * 60000;
-    let localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
-    this.signos.fecha = localISOTime;
+    console.log('Fecha seleccionada', this.fecha);
 
+    let tzoffset = (this.fecha).getTimezoneOffset() * 60000;
+    let localISOTime = (new Date(this.fecha.getTime() - tzoffset)).toISOString();
+    this.signos.fecha = localISOTime;
 
     this.signos.temperatura = this.form.value['temperatura'];
     this.signos.pulso = this.form.value['pulso'];

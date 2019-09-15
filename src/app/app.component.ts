@@ -18,7 +18,14 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
     this.menuService.menuCambio.subscribe(data => {
-      this.menus = data;
+      let menusFiltrados: Menu[] = [];
+      for (let i = 0; i < data.length; i++) {
+        if(data[i].url !== '/perfil') {
+          menusFiltrados.push(data[i]);
+        }
+      }
+      console.log('menusFiltrados', menusFiltrados);
+      this.menus = menusFiltrados;
     });
   }
   

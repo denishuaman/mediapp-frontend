@@ -39,7 +39,7 @@
             <ng-container matColumnDef="acciones">
                 <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <button mat-stroked-button color="primary" [routerLink]="['edicion', row.idSignos]">Editar</button>
+                    <button mat-stroked-button color="primary" [routerLink]="['edicion', row.idSignos]">Actualizar</button>
                     <button mat-stroked-button color="accent" (click)="eliminar(row.idSignos)">Eliminar</button>
                 </mat-cell>
             </ng-container>
