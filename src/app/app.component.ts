@@ -24,7 +24,6 @@ export class AppComponent implements OnInit{
           menusFiltrados.push(data[i]);
         }
       }
-      console.log('menusFiltrados', menusFiltrados);
       this.menus = menusFiltrados;
     });
   }
