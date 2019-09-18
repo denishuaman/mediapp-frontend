@@ -7,7 +7,8 @@ import { Paciente } from 'src/app/_model/paciente';
 import { PacienteService } from 'src/app/_service/paciente.service';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
+import { PacienteDialogoComponent } from '../../paciente/paciente-dialogo/paciente-dialogo.component';
 
 @Component({
   selector: 'app-signos-edicion',
@@ -34,7 +35,8 @@ export class SignosEdicionComponent implements OnInit {
   myControlPaciente: FormControl = new FormControl();
 
   constructor(private signosService: SignosService, private pacienteService: PacienteService,
-    private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar) { }
+    private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -49,20 +51,57 @@ export class SignosEdicionComponent implements OnInit {
       this.idSignos = params['id'];
       this.edicion = params['id'] != null;
     });
+    console.log('VERIFICANDO SI EXISTEN NUEVOS PACIENTES');
+    this.pacienteService.pacienteCambio.subscribe(data => {
+      console.log('EXISTEN NUEVOS PACIENTES');
+      this.pacientes = data;
+    });
+    this.pacienteService.nuevoPacienteAgregado.subscribe(data => {
+      console.log('NUEVO PACIENTE AGREGADO', data);
+      console.log('DATOS INICIALES');
+      console.log('fecha', this.fecha);
+      console.log('temperatura', this.temperatura);
+      console.log('pulso', this.pulso);
+      console.log('ritmoRespiratorio', this.ritmoRespiratorio);
+      this.paciente = data;
+      this.myControlPaciente = new FormControl(this.paciente);
+      this.filteredOptions = this.myControlPaciente.valueChanges.pipe(map(val => this.filter(val)));
+      this.form = new FormGroup({
+        'id': this.edicion ? new FormControl(this.idSignos) : new FormControl(0),
+        'paciente': this.myControlPaciente,
+        'fecha': new FormControl(new Date(this.fecha)),
+        'temperatura': new FormControl(this.temperatura, Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$')),
+        'pulso': new FormControl(this.pulso, Validators.pattern(/^-?(0|[1-9]\d*)?$/)),
+        'ritmoRespiratorio': new FormControl(this.ritmoRespiratorio, Validators.pattern(/^-?(0|[1-9]\d*)?$/))
+      });
+      console.log('DATOS FINALES');
+      console.log('fecha', this.fecha);
+      console.log('temperatura', this.temperatura);
+      console.log('pulso', this.pulso);
+      console.log('ritmoRespiratorio', this.ritmoRespiratorio);
+    });
+    this.pacienteService.mensajeCambio.subscribe(data => {
+      console.log(data);
+      this.snackBar.open(data, 'AVISO', {
+        duration: 5000
+      });
+    })
     this.listarPacientes();
     this.initForm();
   }
 
   initForm() {
+    console.log('*************** INICIO DEL FORMULARIO ****************');
     if (this.edicion) {
+      console.log('ES UNA EDICIÓN');
       this.signosService.listarPorId(this.idSignos).subscribe(data => {
         console.log('signos vitales (seleccionado)', data);
         let id = data.idSignos;
         this.fechaString = data.fecha;
         this.fecha = new Date(this.fechaString);
-        let temperatura = data.temperatura;
-        let pulso = data.pulso;
-        let ritmoRespiratorio = data.ritmoRespiratorio;
+        this.temperatura = data.temperatura;
+        this.pulso = data.pulso;
+        this.ritmoRespiratorio = data.ritmoRespiratorio;
         this.paciente = data.paciente;
         this.myControlPaciente = new FormControl(this.paciente);
         this.filteredOptions = this.myControlPaciente.valueChanges.pipe(map(val => this.filter(val)));
@@ -70,17 +109,19 @@ export class SignosEdicionComponent implements OnInit {
           'id': new FormControl(id),
           'paciente': this.myControlPaciente,
           'fecha': new FormControl(new Date(this.fecha)),
-          'temperatura': new FormControl(temperatura, Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$')),
-          'pulso': new FormControl(pulso, Validators.pattern(/^-?(0|[1-9]\d*)?$/)),
-          'ritmoRespiratorio': new FormControl(ritmoRespiratorio, Validators.pattern(/^-?(0|[1-9]\d*)?$/))
+          'temperatura': new FormControl(this.temperatura, Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$')),
+          'pulso': new FormControl(this.pulso, Validators.pattern(/^-?(0|[1-9]\d*)?$/)),
+          'ritmoRespiratorio': new FormControl(this.ritmoRespiratorio, Validators.pattern(/^-?(0|[1-9]\d*)?$/))
         });
       });
     } else {
+      console.log('ES UN REGISTRO NUEVO');
       this.filteredOptions = this.myControlPaciente.valueChanges.pipe(map(val => this.filter(val)));
     }
   }
 
   listarPacientes() {
+    console.log('LISTANDO PACIENTES');
     this.pacienteService.listar().subscribe(data => {
       this.pacientes = data;
     });
@@ -150,6 +191,13 @@ export class SignosEdicionComponent implements OnInit {
       return this.pacientes.filter(option =>
         option.nombres.toLowerCase().includes(val.toLowerCase()) || option.apellidos.toLowerCase().includes(val.toLowerCase()) || option.dni.includes(val));
     }
+  }
+
+  openDialog() {
+    console.log('************** ABRIENDO DIÁLOGO - NUEVO PACIENTE *************');
+    this.dialog.open(PacienteDialogoComponent, {
+      width: '500px'
+    });
   }
 
 }

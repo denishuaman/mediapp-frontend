@@ -11,6 +11,7 @@ export class PacienteService {
 
   pacienteCambio = new Subject<Paciente[]>();
   mensajeCambio = new Subject<string>();
+  nuevoPacienteAgregado = new Subject<Paciente>();
 
   url: string = `${environment.HOST}/pacientes`;
   //url: string = `${environment.HOST}/${environment.MICRO_CRUD}/pacientes`;

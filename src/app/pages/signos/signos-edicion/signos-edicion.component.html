@@ -7,6 +7,10 @@
     </div>
 
     <div class="example-container">
+        <button mat-raised-button type="button" (click)="openDialog()">
+            <mat-icon>add_circle</mat-icon>
+            <span>Nuevo paciente</span>
+        </button>
         <mat-form-field>
             <input type="text" placeholder="Paciente" matInput [matAutocomplete]="autoPaciente"
                 [formControl]="myControlPaciente" formControlName="paciente" required>

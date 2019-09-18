@@ -5,4 +5,5 @@ export class Paciente {
     dni: string;
     direccion: string;
     telefono: string;
+    email: string;
 }
