@@ -1,27 +1,29 @@
 <mat-toolbar>
     <span>Nuevo paciente</span>
 </mat-toolbar>
-<div class="example-container">
-    <mat-form-field>
-        <input matInput placeholder="Nombres" [(ngModel)]="paciente.nombres">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="Apellidos" [(ngModel)]="paciente.apellidos">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="Email" [(ngModel)]="paciente.email">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="Teléfono" [(ngModel)]="paciente.telefono">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="DNI" [(ngModel)]="paciente.dni">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="Dirección" [(ngModel)]="paciente.direccion">
-    </mat-form-field>
-</div>
-<div align="center">
-    <button mat-raised-button color="primary" (click)="registrar()">Aceptar</button>
-    <button mat-raised-button color="accent" (click)="cancelar()">Cancelar</button>
-</div>
+<form class="example-container" [formGroup]="form" (ngSubmit)="registrar()" #espForm="ngForm">
+    <div class="example-container">
+        <mat-form-field>
+            <input matInput placeholder="Nombres" required [(ngModel)]="paciente.nombres" formControlName="nombres">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Apellidos" required [(ngModel)]="paciente.apellidos" formControlName="apellidos">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Email" required [(ngModel)]="paciente.email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Teléfono" required [(ngModel)]="paciente.telefono" formControlName="telefono">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="DNI" required [(ngModel)]="paciente.dni" formControlName="dni">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Dirección" required [(ngModel)]="paciente.direccion" formControlName="direccion">
+        </mat-form-field>
+    </div>
+    <div align="center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="espForm.invalid">Aceptar</button>
+        <button mat-raised-button color="accent" type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+</form>
